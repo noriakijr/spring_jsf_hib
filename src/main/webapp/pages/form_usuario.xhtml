@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+	<h:form>
+		<p:growl id="msg" showDetail="true" sticky="true" life="50"/>
+		
+		<p:panel header="Cadastro de Usuário">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="txtNome" value="Nome" />
+				<p:inputText id="txtNome" value="#{usuarioBean.usuario.nome}" placeholder="Nome do usuário" />
+				<p:outputLabel for="txtEmail" value="Email" />
+				<p:inputText id="txtEmail" value="#{usuarioBean.usuario.email}" placeholder="E-mail" />
+				<p:outputLabel for="txtSenha" value="Senha" />
+				<p:password id="txtSenha" value="#{usuarioBean.usuario.senha}" placeholder="Senha" />
+			</h:panelGrid>
+			<p:commandButton value="Salvar" icon="ui-icon-disk" action="#{usuarioBean.salvar}" update="@form" />
+		</p:panel>
+		<p:panel header="Lista de Usuários">
+			<p:dataTable value="#{usuarioBean.usuarios}" var="user" emptyMessage="Nenhum registro encontrado" >
+				<p:column headerText="Id" filterBy="#{user.id}" filterMatchMode="contains">
+					<h:outputText value="#{user.id}" />
+				</p:column>
+				<p:column headerText="Nome" filterBy="#{user.nome}" filterMatchMode="contains">
+					<h:outputText value="#{user.nome}" />
+				</p:column>
+				<p:column headerText="E-mail" filterBy="#{user.email}" filterMatchMode="contains">
+					<h:outputText value="#{user.email}" />
+				</p:column>
+				<p:column>
+					<p:commandButton icon="ui-icon-pencil" update="@form" >
+						<f:setPropertyActionListener value="#{user}" target="#{usuarioBean.usuario}" />
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-trash" action="#{usuarioBean.excluir}" update="@form" >
+						<f:setPropertyActionListener value="#{user}" target="#{usuarioBean.usuario}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>
